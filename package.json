@@ -1,19 +1,16 @@
 {
-  "name": "angular-quickstart",
-  "version": "1.0.0",
-  "description": "QuickStart package.json from the documentation, supplemented with testing support",
+  "name": "hapi-angular-quickstart",
+  "version": "0.0.1",
+  "description": "Hapi hosting of the Angular quickstart app",
+  "main": "server.js",
   "scripts": {
     "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
-    "e2e": "tsc && concurrently \"http-server -s\" \"protractor protractor.config.js\" --kill-others --success first",
     "lint": "tslint ./app/**/*.ts -t verbose",
     "lite": "lite-server",
-    "pree2e": "webdriver-manager update",
-    "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
-    "test-once": "tsc && karma start karma.conf.js --single-run",
     "tsc": "tsc",
     "tsc:w": "tsc -w"
   },
-  "keywords": [],
+  "keywords": ["Hapi", "Angular"],
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -53,5 +50,8 @@
     "@types/node": "^6.0.46",
     "@types/jasmine": "^2.5.36"
   },
-  "repository": {}
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rjmreis/hapi-api.git"
+  }
 }
