@@ -14,9 +14,8 @@ var rout_configs = {
   index: {
     description: 'Angular Quickstart App Index',
     notes: 'The main page for the Angular quickstart app',
-    handler: (request, reply) => {
-      console.log('searching for:  ' + __dirname + '/public/index.html')
-      reply.file(__dirname + '/index.html');
+    handler: {
+      file: __dirname + '/index.html'
     }
   },
 
@@ -49,8 +48,8 @@ exports.register = (server, options, next) => {
 
   server.route([
     { method: 'GET', path: '/', config: rout_configs.index },
-    { method: 'GET', path: '/{filename*}', config: rout_configs.files },
-    { method: 'GET', path: '/node_modules/{filename*}', config: rout_configs.node_modules }
+    { method: 'GET', path: '/node_modules/{filename*}', config: rout_configs.node_modules },
+    { method: 'GET', path: '/{filename*}', config: rout_configs.files }
   ]);
 
   next();

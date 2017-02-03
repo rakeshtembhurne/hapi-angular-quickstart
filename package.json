@@ -4,7 +4,7 @@
   "description": "Hapi hosting of the Angular quickstart app",
   "main": "server.js",
   "scripts": {
-    "setup": "npm install & typings install",
+    "setup": "npm install",
     "start": "npm run tsc:projects && npm-run-all --parallel tsc:projectsw start:server ",
     "start:server": "nodemon server.js",
     "lint": "tslint ./app/**/*.ts -t verbose",
