@@ -1,7 +1,6 @@
 # Hapi hosting Angular QuickStart Source
 
-This repository refactors the TypeScript source code of the [angular.io quickstart](https://angular.io/docs/ts/latest/quickstart.html),
-to be hosted from a Hapi service.
+This repository turns the [angular.io quickstart](https://angular.io/docs/ts/latest/quickstart.html) into a [Hapi](https://hapijs.com/) plugin.  It is meant to be a stating point for projects to host Angular application from a Hapi server.
 
 **This is not the perfect arrangement for your application. It is not designed for production.
 It exists primarily to get you started quickly with learning and prototyping in Angular and Hapi**
@@ -17,7 +16,7 @@ Get it now</a> if it's not already installed on your machine.
 by running `node -v` and `npm -v` in a terminal/console window.
 Older versions produce errors.
 
-We recommend [nvm](https://github.com/creationix/nvm) for managing multiple versions of node and npm.
+It is recommenedto use [nvm](https://github.com/creationix/nvm) for managing multiple versions of node and npm.
 
 ## Create a new project based on the Hapi Angular QuickStart
 
@@ -45,7 +44,7 @@ git commit -m "Initial commit"
 ```
 
 >Recover the deleted `.gitignore` from the QuickStart repository 
-if you lost it in the _Delete non-essential files_ step.
+>if you lost it in the _Delete non-essential files_ step.
 
 Create a *remote repository* for this project on the service of your choice.
 
@@ -56,7 +55,7 @@ git push -u origin master
 ```
 ## Install npm packages
 
-> See npm and nvm version notes above
+>See npm and nvm version notes above
 
 Install the npm packages described in the `package.json` and verify that it works:
 
@@ -75,14 +74,43 @@ Shut it down manually with `Ctrl-C`.
 
 You're ready to write your application.
 
-### npm scripts
+## npm scripts
 
-Useful commands are included in npm scripts defined in the `package.json`:
+Useful commands to get up and running are included in npm scripts defined in the `package.json`:
 
-* `npm start` - runs the compiler and a server at the same time, both in "watch mode".
-* `npm run tsc` - runs the TypeScript compiler once.
-* `npm run tsc:w` - runs the TypeScript compiler in watch mode; the process keeps running, awaiting changes to TypeScript files and re-compiling when it sees them.
-* `npm run lite` - runs the [lite-server](https://www.npmjs.com/package/lite-server), a light-weight, static file server, written and maintained by
-[John Papa](https://github.com/johnpapa) and
-[Christopher Martin](https://github.com/cgmartin)
-with excellent support for Angular apps that use routing.
+* "start": "npm run tsc:projects && npm-run-all --parallel tsc:projectsw start:server "
+* "start:server": "nodemon server.js"
+* "tsc:projects": "tsc -p angular-quickstart"
+* "tsc:projectsw": "tsc -w -p angular-quickstart"
+
+>__Changes from Quickstart:__ 
+> - This is a Hapi app, so lite-server is not necessary.  
+> - nodemon is used to keep the server running until it is canceled from the command line with `ctrl-c`/`cmd-c`.  
+> - `tsconfig.json` and `tslint.json` have been relocated with the app.  This means that `tsc` needs to be giving a `--project` or `-p` argument.  For adding/moving/renaming apps, make sure that the `tsc:projects` and `tsc:projectsw` scripts are updated.
+
+## Hapi Routing
+
+An `index.js` file has been added to the root directory of the Angular app, which allows us to perform the `require()` needed to register the plugin in `server.js`.
+
+```javascript
+server.register({
+  register: require('./angular-quickstart'),
+  routes: { prefix: '/quickstart' }
+})
+```
+
+The `angular-quickstart` plugin provides three routes, which permits the client app access to all of the files it needs to run:
+- A shortcut to the app specifying '/' - serves `index.html` directly
+- Serves all files under in the root Angular directory
+- Serves all files in the `/node_modules` directory
+
+> It's already been said, but it is important to note this is not an adequate production setup!
+
+`server.js` then registers the angular-quickstart plugin, which automatically adds the routes provided, and away you go!
+
+## Adding more or different angular apps
+
+The `index.js` provided should be sufficient to get any Angular app up and running.  Just drop it in to the root folder of the Angular app, and register it as a plugin.
+
+Use the `routes: { prefix: '<your app url>' }` option to host the app wherever you want.
+
