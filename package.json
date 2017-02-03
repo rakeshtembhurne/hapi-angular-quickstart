@@ -5,11 +5,11 @@
   "main": "server.js",
   "scripts": {
     "setup": "npm install & typings install",
-    "start": "tsc && npm-run-all --parallel tsc:w start:server ",
+    "start": "npm run tsc:projects && npm-run-all --parallel tsc:projectsw start:server ",
     "start:server": "nodemon server.js",
     "lint": "tslint ./app/**/*.ts -t verbose",
-    "tsc": "tsc",
-    "tsc:w": "tsc -w"
+    "tsc:projects": "tsc -p angular-quickstart",
+    "tsc:projectsw": "tsc -w -p angular-quickstart"
   },
   "keywords": [
     "Hapi",
@@ -35,7 +35,6 @@
     "hapi": "^16.1.0",
     "hoek": "^4.1.0",
     "inert": "^4.1.0",
-    "path": "^0.12.7",
     "rxjs": "5.0.1",
     "systemjs": "0.19.40",
     "zone.js": "^0.7.4"
