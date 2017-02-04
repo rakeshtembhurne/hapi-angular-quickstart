@@ -20,28 +20,27 @@ server.register({
 server.register({
   register: require('good'),
   options: {
-    ops: { interval: 60000 },
+    ops: { interval: 600000 },
     reporters: {
       console: [
         { module: 'good-console'}, 'stdout'
       ]
     }
-  }}, 
+  }},
   (err) => { if (err) { throw err; }
 });
 
 if (!process.env.PRODUCTION) {
-  server.register({ 
-    register: require('blipp'), 
-    options: { showAuth: true } 
-    }, 
-    (err) => { 
+  server.register({
+    register: require('blipp'),
+    options: { showAuth: true }
+    },
+    (err) => {
       if (err) { throw err; }
   });
 }
 
-server.start((err) => { 
+server.start((err) => {
   if (err) { throw err; }
   console.log('✅  Server is listening on ' + server.info.uri.toLowerCase());
 });
-
