@@ -99,12 +99,16 @@ server.register({
 })
 ```
 
-The `angular-quickstart` plugin provides three routes, which permits the client app access to all of the files it needs to run:
+The `angular-quickstart` plugin provides routes in three different ways, which permits the client app access to all of the files it needs to run:
 - A shortcut to the app specifying '/' - serves `index.html` directly
-- Serves all files under in the root Angular directory
-- Serves all files in the `/node_modules` directory
+- Serves all necessary files under in the root Angular directory
+- Serves all necessary files in the `/node_modules` directory
 
-> It's already been said, but it is important to note this is not an adequate production setup!
+`index.js` creates a simple route from the url `'/'` right to `index.html`.  Then it builds routing configurations based on an array of all the necessary files it needs from the main app directory.  THEN it builds routing configurations from each file needed from inside of the node_modules directory.  Each file is called out separately so that a user has access to exactly these files and nothing else.  
+
+>Note that the urls that the client app uses to `GET` files are defined by the `systemjs.config.js` and `index.html`files.  The routes set up in `index.js` were done so that no changes needed to be made to those files.
+
+>In a production setup, you would likely have a script to copy all of the static to a directory where it is okay for the user to have access to the whole thing, but to keep things simple (and demonstrate way s to do routing), each file is listed and pointed to manually. 
 
 `server.js` then registers the angular-quickstart plugin, which automatically adds the routes provided, and away you go!
 
